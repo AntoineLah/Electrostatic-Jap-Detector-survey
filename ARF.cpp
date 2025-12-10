@@ -121,7 +121,7 @@ std::map<std::string, ROIResult> integrateROIs(const std::vector<double>& spectr
     return results;
 }
 
-// --- Binned TGraphErrors including statistical + systematic ---
+// --- Binned TGraphErrors including statistical ---
 TGraphErrors* makeBinnedGraph(const std::vector<double>& times,
                               const std::vector<double>& values,
                               int hoursBin,
@@ -173,7 +173,7 @@ TGraphErrors* makeBinnedGraph(const std::vector<double>& times,
     return g;
 }
 
-// --- Main processing ---
+
 void ARF() {
     struct DatasetConfig {
         std::string path;
@@ -318,7 +318,7 @@ void ARF() {
 
 
 
-        // --- Binned graph with total errors ---
+        // --- Binned graph with errors ---
         long long tMin = static_cast<long long>(*std::min_element(all_timestamp.begin(),all_timestamp.end()));
         long long tMax = static_cast<long long>(*std::max_element(all_timestamp.begin(),all_timestamp.end()));
         int hoursBin = 3;
