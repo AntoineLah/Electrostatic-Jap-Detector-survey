@@ -121,7 +121,7 @@ std::map<std::string, ROIResult> integrateROIs(const std::vector<double>& spectr
     return results;
 }
 
-// --- Binned TGraphErrors including statistical ---
+// --- Binned TGraphErrors including statistical + systematic ---
 TGraphErrors* makeBinnedGraph(const std::vector<double>& times,
                               const std::vector<double>& values,
                               int hoursBin,
@@ -167,11 +167,13 @@ TGraphErrors* makeBinnedGraph(const std::vector<double>& times,
     g->SetLineWidth(2);
     g->SetMarkerStyle(21);
     g->GetXaxis()->SetTimeDisplay(1);
+    g->SetTitle(Form("Background; Time;Counts per hour (%dh average )", hoursBin));
     g->GetXaxis()->SetTimeFormat("%d/%m");
     g->GetXaxis()->SetTimeOffset(0,"gmt");
     return g;
 }
 
+// --- Main processing ---
 void bdf() {
     struct DatasetConfig {
         std::string path;
@@ -316,7 +318,7 @@ void bdf() {
 
 
 
-        // --- Binned graph with errors ---
+        // --- Binned graph with total errors ---
         long long tMin = static_cast<long long>(*std::min_element(all_timestamp.begin(),all_timestamp.end()));
         long long tMax = static_cast<long long>(*std::max_element(all_timestamp.begin(),all_timestamp.end()));
         int hoursBin = 3;
@@ -367,6 +369,8 @@ void bdf() {
 
         // TLine ! 
         double f1, f2, f3, f4;
+        
+        
 
 
     } else std::cout<<"No points to plot\n";
